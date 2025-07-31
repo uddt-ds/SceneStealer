@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9BF104822E3B57C500A73D6F /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 9BF104812E3B57C500A73D6F /* .gitignore */; };
+		9BF105952E3B9F4500A73D6F /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9BF105942E3B9F4500A73D6F /* SnapKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9BF105952E3B9F4500A73D6F /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,6 +86,7 @@
 			);
 			name = SceneStealer;
 			packageProductDependencies = (
+				9BF105942E3B9F4500A73D6F /* SnapKit */,
 			);
 			productName = SceneStealer;
 			productReference = 9BF104592E3B569800A73D6F /* SceneStealer.app */;
@@ -113,6 +116,9 @@
 			);
 			mainGroup = 9BF104502E3B569800A73D6F;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				9BF105932E3B9F4500A73D6F /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 9BF1045A2E3B569800A73D6F /* Products */;
 			projectDirPath = "";
@@ -356,6 +362,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9BF105932E3B9F4500A73D6F /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9BF105942E3B9F4500A73D6F /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9BF105932E3B9F4500A73D6F /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 9BF104512E3B569800A73D6F /* Project object */;
 }
