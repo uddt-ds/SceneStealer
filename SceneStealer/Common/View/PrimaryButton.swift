@@ -19,6 +19,7 @@ class PrimaryButton: UIButton {
         designButtonUI()
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
