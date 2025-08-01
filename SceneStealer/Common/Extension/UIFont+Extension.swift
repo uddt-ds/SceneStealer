@@ -16,7 +16,7 @@ enum FontName: String {
 }
 
 extension UIFont {
-    static let logoTitle = UIFont(name: FontName.logo.rawValue, size: 20)
+    static let logoTitle = UIFont(name: FontName.logo.rawValue, size: 30)
     static let headerTitleLB = UIFont(name: FontName.headerB.rawValue, size: 16)
     static let headerTitleL = UIFont(name: FontName.header.rawValue, size: 16)
     static let headerTitleMB = UIFont(name: FontName.headerB.rawValue, size: 14)
