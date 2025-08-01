@@ -42,9 +42,9 @@ class BaseNicknameView: UIView {
         super.init(frame: frame)
     }
 
-    init(isHidden: Bool = true) {
+    init(isHiddenEditBtn: Bool = true) {
         super.init(frame: .zero)
-        editButton.isHidden = isHidden
+        editButton.isHidden = isHiddenEditBtn
         configureHierarchy()
         configureLayout()
         configureView()
