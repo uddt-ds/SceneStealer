@@ -15,6 +15,13 @@ class MovieDetailHeaderView: UITableViewHeaderFooterView, InitialViewProtocol {
         return collectionView
     }()
 
+    let pageControl: UIPageControl = {
+        let pageControl = UIPageControl()
+        pageControl.numberOfPages = 5
+        pageControl.pageIndicatorTintColor = .primaryGray
+        return pageControl
+    }()
+
     private let calendarImageView: UIImageView = {
         let imageView = UIImageView()
         let image = ImageSystem.getImage(name: ImageSystem.calendar.rawValue)
@@ -141,12 +148,17 @@ class MovieDetailHeaderView: UITableViewHeaderFooterView, InitialViewProtocol {
     }
 
     func configureHierarchy() {
-        [imageCollectionView, totalStackView].forEach { addSubview($0) }
+        [imageCollectionView, pageControl, totalStackView].forEach { addSubview($0) }
     }
 
     func configureLayout() {
         imageCollectionView.snp.makeConstraints { make in
             make.top.directionalHorizontalEdges.equalToSuperview()
+        }
+
+        pageControl.snp.makeConstraints { make in
+            make.bottom.equalTo(totalStackView.snp.top).offset(-16)
+            make.centerX.equalToSuperview()
         }
 
         [calendarImageView, starImageView, genreImageView].forEach {
