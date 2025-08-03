@@ -13,10 +13,28 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+
+        //TODO: UserDefault 데이터 연결 필요
+        let isOnboarding = false
+
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
-        window?.rootViewController = ViewController()
+
+        let splashVC = SplashVC()
+        window?.rootViewController = splashVC
         window?.makeKeyAndVisible()
+
+        //MARK: 조건에 따라 화면 분기
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            if isOnboarding {
+                let tabBarController = TabBarController()
+                self.window?.rootViewController = tabBarController
+            } else {
+                let onBoardingVC = OnboardingVC()
+                let navOnboardingVC = UINavigationController(rootViewController: onBoardingVC)
+                self.window?.rootViewController = navOnboardingVC
+            }
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
