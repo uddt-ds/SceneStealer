@@ -15,7 +15,7 @@ enum ImageSystem: String {
     case xmark = "xmark"
     case film = "film.fill"
     case magnifyingglass = "magnifyingglass"
-    case calender = "calender"
+    case calendar = "calendar"
     case popcorn = "popcorn"
     case filmStack = "film.stack"
     case person = "person.crop.circle"
