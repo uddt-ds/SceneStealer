@@ -16,18 +16,21 @@ class TabBarController: UITabBarController {
 
     func configureTabBarController() {
         let mainVC = MainVC()
+        let navMain = UINavigationController(rootViewController: mainVC)
         let popchornImage = ImageSystem.getImage(name: ImageSystem.popcorn.rawValue)
-        mainVC.setupTabBarItem(title: "CINEMA", image: popchornImage)
+        navMain.setupTabBarItem(title: "CINEMA", image: popchornImage)
 
-        let upcommingVC = OnboardingVC()
+        let upcomingVC = ViewController()
         let filmImage = ImageSystem.getImage(name: ImageSystem.filmStack.rawValue)
-        upcommingVC.setupTabBarItem(title: "UPCOMMING", image: filmImage)
+        upcomingVC.setupTabBarItem(title: "UPCOMING", image: filmImage)
 
-        let personVC = NicknameVC()
+        let profileVC = ProfileVC()
         let personImage = ImageSystem.getImage(name: ImageSystem.person.rawValue)
-        personVC.setupTabBarItem(title: "PEOPLE", image: personImage)
+        let navProfile = UINavigationController(rootViewController: profileVC)
+        navProfile.setupTabBarItem(title: "PEOPLE", image: personImage)
 
-        setViewControllers([mainVC, upcommingVC, personVC], animated: true)
+        setViewControllers([navMain, upcomingVC, navProfile], animated: true)
+
         tabBar.tintColor = .primaryGreen
         tabBar.unselectedItemTintColor = .primaryLightGray
     }
