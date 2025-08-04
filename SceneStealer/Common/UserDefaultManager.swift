@@ -28,7 +28,7 @@ struct UserDefaultManager {
 
     func saveData<T: Encodable>(key: UserDefaultManager.UserDefaultKey, value: T) {
         if let encodedData = try? JSONEncoder().encode(value) {
-            userDefaults.set(value, forKey: key.rawValue)
+            userDefaults.set(encodedData, forKey: key.rawValue)
         }
     }
 }
