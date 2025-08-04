@@ -30,6 +30,7 @@ class NicknameDetailVC: UIViewController, NicknameVCProtocol {
         configureView()
         setupNavigation()
 
+        baseNicknameView.textField.delegate = self
     }
 
     func configureHierarchy() {
@@ -52,8 +53,39 @@ class NicknameDetailVC: UIViewController, NicknameVCProtocol {
 
     private func setupNavigation() {
         navigationItem.title = "닉네임 설정"
-        navigationItem.backBarButtonItem = .init(title: "", style: .done, target: nil, action: nil)
+        let image = ImageSystem.getImage(name: ImageSystem.chevronL.rawValue)
+        navigationItem.leftBarButtonItem = .init(image: image, style: .done, target: self, action: #selector(buttonTapped))
         let attributeContainer = AttributeContainer([.foregroundColor: UIColor.primaryWhite])
         navigationController?.navigationBar.titleTextAttributes = .init(attributeContainer)
+    }
+
+    func checkLabel(userInput: String) -> String {
+        let specialSignCondition: [Character] = ["@", "#", "$", "%"]
+        let numRange = Range(0...9)
+        let numArr = Array<Int>(numRange)
+        let strArr = numArr.map { String($0) }
+        let charArr = strArr.map { Character($0) }
+
+        if userInput.count < 2 || userInput.count > 10 {
+            return NicknameLogMessage.tooShortInput.rawValue
+        } else if userInput.contains(where: { specialSignCondition.contains($0) }) {
+            return NicknameLogMessage.noSpecialSign.rawValue
+        } else if userInput.contains(where: { charArr.contains($0)}) {
+            return NicknameLogMessage.noNumber.rawValue
+        } else {
+            return NicknameLogMessage.validateInput.rawValue
+        }
+    }
+
+    @objc private func buttonTapped() {
+        print(#function)
+    }
+}
+
+extension NicknameDetailVC: UITextFieldDelegate {
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        if let text = textField.text, text.count > 0 {
+            checkLabel.text = checkLabel(userInput: textField.text!)
+        }
     }
 }
