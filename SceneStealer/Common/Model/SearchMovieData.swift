@@ -1,0 +1,30 @@
+//
+//  SearchMovieData.swift
+//  SceneStealer
+//
+//  Created by Lee on 8/4/25.
+//
+
+import Foundation
+
+struct SearchMovieData: Decodable {
+    let results: [SearchData]
+}
+
+struct SearchData: Decodable {
+    let id: Int
+    let posterPath: String
+    let title: String
+    let voteAverage: Double
+    let releaseDate: String
+    let genreIds: [Int]
+
+    enum CodingKeys: String, CodingKey {
+        case id 
+        case posterPath = "poster_path"
+        case title
+        case voteAverage = "vote_average"
+        case releaseDate = "release_date"
+        case genreIds = "genre_ids"
+    }
+}
