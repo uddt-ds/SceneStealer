@@ -9,6 +9,8 @@ import UIKit
 
 class NicknameDetailVC: UIViewController, NicknameVCProtocol {
 
+    var delegate: NicknameDataDelegate?
+
     let baseNicknameView = BaseNicknameView(isHiddenEditBtn: true)
 
     let checkLabel: UILabel = {
@@ -31,6 +33,7 @@ class NicknameDetailVC: UIViewController, NicknameVCProtocol {
         setupNavigation()
 
         baseNicknameView.textField.delegate = self
+        baseNicknameView.textField.becomeFirstResponder()
     }
 
     func configureHierarchy() {
@@ -78,8 +81,13 @@ class NicknameDetailVC: UIViewController, NicknameVCProtocol {
     }
 
     @objc private func buttonTapped() {
-        print(#function)
+        if let text = baseNicknameView.textField.text {
+            delegate?.dataSend(text: text)
+        }
+
+        navigationController?.popViewController(animated: true)
     }
+
 }
 
 extension NicknameDetailVC: UITextFieldDelegate {

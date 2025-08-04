@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+protocol NicknameDataDelegate {
+    func dataSend(text: String)
+}

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Toast
 
 class NicknameVC: UIViewController, NicknameVCProtocol {
 
@@ -25,6 +26,7 @@ class NicknameVC: UIViewController, NicknameVCProtocol {
         setupNavigation()
 
         baseNicknameView.editButton.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     }
 
     func configureHierarchy() {
@@ -43,6 +45,8 @@ class NicknameVC: UIViewController, NicknameVCProtocol {
 
     func configureView() {
         view.backgroundColor = .primaryBlack
+
+        baseNicknameView.textField.isUserInteractionEnabled = false
     }
 
     private func setupNavigation() {
@@ -54,6 +58,34 @@ class NicknameVC: UIViewController, NicknameVCProtocol {
 
     @objc private func editButtonTapped() {
         let nicknameDetailVC = NicknameDetailVC()
+        nicknameDetailVC.delegate = self
         navigationController?.pushViewController(nicknameDetailVC, animated: true)
+    }
+
+    @objc private func buttonTapped() {
+        let specialSignCondition: [Character] = ["@", "#", "$", "%"]
+        let numRange = Range(0...9)
+        let numArr = Array<Int>(numRange)
+        let strArr = numArr.map { String($0) }
+        let charArr = strArr.map { Character($0) }
+
+        if let userInput = baseNicknameView.textField.text, userInput.count > 0 {
+            if userInput.count < 2 || userInput.count > 10 {
+                view.makeToast(NicknameLogMessage.tooShortInput.rawValue, duration: 2.0, position: .bottom)
+            } else if userInput.contains(where: { specialSignCondition.contains($0) }) {
+                view.makeToast(NicknameLogMessage.noSpecialSign.rawValue, duration: 2.0, position: .bottom)
+            } else if userInput.contains(where: { charArr.contains($0)}) {
+                view.makeToast(NicknameLogMessage.noNumber.rawValue, duration: 2.0, position: .bottom)
+            } else {
+                let tabBarController = TabBarController()
+                view.window?.rootViewController = tabBarController
+            }
+        }
+    }
+}
+
+extension NicknameVC: NicknameDataDelegate {
+    func dataSend(text: String) {
+        baseNicknameView.textField.text = text
     }
 }
