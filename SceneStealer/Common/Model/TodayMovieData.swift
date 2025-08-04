@@ -24,3 +24,9 @@ struct MovieResult: Decodable {
         case overview
     }
 }
+
+extension MovieResult {
+    var url: String {
+        return APIData.simpleImage(posterPath).getUrlComponents
+    }
+}

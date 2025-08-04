@@ -9,6 +9,8 @@ import UIKit
 
 class MainVC: UIViewController {
 
+    var todayMovieData: [MovieResult] = []
+
     let mainView = MainView()
 
     override func loadView() {
@@ -23,6 +25,7 @@ class MainVC: UIViewController {
         super.viewDidLoad()
         configureView()
         setupNavigation()
+        fetchData()
     }
 
     private func configureView() {
@@ -40,6 +43,20 @@ class MainVC: UIViewController {
         navigationItem.rightBarButtonItem?.tintColor = .primaryGreen
     }
 
+    private func fetchData() {
+        let queries = [QueryData.page(1), QueryData.language]
+        guard let url = NetworkService.shared.makeUrl(path: .trendingPath, queries: queries) else { return }
+        NetworkService.shared.fetchData(url: url) { (response: Result<TodayMovieData, Error>) in
+            switch response {
+            case .success(let response):
+                self.todayMovieData = response.results
+                self.mainView.todayMovieCollectionView.reloadData()
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+
     @objc private func buttonTapped() {
         print(#function)
     }
@@ -49,8 +66,9 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return todayMovieData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -65,6 +83,7 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TodayMovieCollectionViewCell.self), for: indexPath) as? TodayMovieCollectionViewCell else {
                 return .init()
             }
+            cell.configureCell(data: todayMovieData[indexPath.row])
             return cell
         default:
             return .init()

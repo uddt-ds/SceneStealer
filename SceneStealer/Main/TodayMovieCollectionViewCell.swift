@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class TodayMovieCollectionViewCell: UICollectionViewCell {
 
@@ -21,7 +22,6 @@ class TodayMovieCollectionViewCell: UICollectionViewCell {
 
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "타이틀 테스트"
         label.font = .headerTitleLB
         label.textColor = .primaryWhite
         label.textAlignment = .left
@@ -49,7 +49,6 @@ class TodayMovieCollectionViewCell: UICollectionViewCell {
 
     private let synopsisLabel: UILabel = {
         let label = UILabel()
-        label.text = "테스트입니다 테스트입니다 테스트입니다 테스트입니다 테스트입니다 테스트입니다 테스트입니다 테스트입니다 "
         label.font = .subTitleM
         label.textColor = .primaryWhite
         label.numberOfLines = 3
@@ -105,5 +104,12 @@ class TodayMovieCollectionViewCell: UICollectionViewCell {
         heartButton.snp.makeConstraints { make in
             make.size.equalTo(20)
         }
+    }
+
+    func configureCell(data: MovieResult) {
+        let url = URL(string: data.url)
+        imageView.kf.setImage(with: url)
+        titleLabel.text = data.title
+        synopsisLabel.text = data.overview
     }
 }
