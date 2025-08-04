@@ -43,4 +43,7 @@ class ProfileTableViewCell: UITableViewCell {
         contentView.backgroundColor = .clear
     }
 
+    func configureCell(data: ProfileMenuTitle) {
+        label.text = data.title
+    }
 }
