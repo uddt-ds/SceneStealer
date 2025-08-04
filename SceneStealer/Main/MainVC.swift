@@ -9,6 +9,8 @@ import UIKit
 
 class MainVC: UIViewController {
 
+    var nickname: String = ""
+
     var todayMovieData: [MovieResult] = []
 
     let mainView = MainView()
@@ -26,6 +28,11 @@ class MainVC: UIViewController {
         configureView()
         setupNavigation()
         fetchData()
+
+        guard let userName = try? UserDefaultManager.shared.loadData(key: .nickname) ?? "" else { return }
+        nickname = userName
+
+        mainView.profileBoxView.nicknameLabel.text = nickname
     }
 
     private func configureView() {
@@ -39,8 +46,10 @@ class MainVC: UIViewController {
         navigationController?.navigationBar.titleTextAttributes = .init(attributeContainer)
 
         let image = ImageSystem.getImage(name: ImageSystem.magnifyingglass.rawValue)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: image, style: .done, target: nil, action: #selector(buttonTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: image, style: .done, target: self, action: #selector(buttonTapped))
         navigationItem.rightBarButtonItem?.tintColor = .primaryGreen
+
+        navigationItem.backBarButtonItem = .init(title: "", style: .done, target: nil, action: nil)
     }
 
     private func fetchData() {
@@ -59,6 +68,9 @@ class MainVC: UIViewController {
 
     @objc private func buttonTapped() {
         print(#function)
+        let vc = SearchResultVC()
+        navigationItem.backBarButtonItem = .init(title: "", style: .done, target: nil, action: nil)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
@@ -87,6 +99,19 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
             return cell
         default:
             return .init()
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        switch collectionView {
+        case mainView.searchCollectionView:
+            print(#function)
+        case mainView.todayMovieCollectionView:
+            let movieDetailVC = MovieDetailVC()
+            movieDetailVC.movieDetailData = todayMovieData[indexPath.row].movieDetailModel
+            navigationController?.pushViewController(movieDetailVC, animated: true)
+        default:
+            return
         }
     }
 }

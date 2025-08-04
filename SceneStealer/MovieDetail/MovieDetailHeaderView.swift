@@ -11,7 +11,7 @@ class MovieDetailHeaderView: UITableViewHeaderFooterView, InitialViewProtocol {
 
     lazy var imageCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: makeCollectionViewLayout())
-        collectionView.backgroundColor = .red
+        collectionView.backgroundColor = .primaryDrakGray
         return collectionView
     }()
 
@@ -33,7 +33,6 @@ class MovieDetailHeaderView: UITableViewHeaderFooterView, InitialViewProtocol {
 
     private let calendarLabel: UILabel = {
         let label = UILabel()
-        label.text = "0000-00-00"
         label.textColor = .primaryGray
         label.font = .subTitleM
         return label
@@ -59,7 +58,6 @@ class MovieDetailHeaderView: UITableViewHeaderFooterView, InitialViewProtocol {
 
     private let starLabel: UILabel = {
         let label = UILabel()
-        label.text = "8.0"
         label.textColor = .primaryGray
         label.font = .subTitleM
         return label
@@ -85,7 +83,6 @@ class MovieDetailHeaderView: UITableViewHeaderFooterView, InitialViewProtocol {
 
     private let genreLabel: UILabel = {
         let label = UILabel()
-        label.text = "0000-00-00"
         label.textColor = .primaryGray
         label.font = .subTitleM
         return label
@@ -212,5 +209,11 @@ class MovieDetailHeaderView: UITableViewHeaderFooterView, InitialViewProtocol {
         layout.sectionInset = .zero
         layout.itemSize = .init(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.3)
         return layout
+    }
+
+    func configureView(data: MovieDetailModel) {
+        calendarLabel.text = data.releaseDate
+        starLabel.text = data.shortVoteAverage
+        genreLabel.text = data.genre
     }
 }

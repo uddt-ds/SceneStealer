@@ -23,6 +23,14 @@ struct NetworkService {
         return components.url
     }
 
+    func makeUrl(path: APIData) -> URL? {
+        var components = URLComponents()
+        components.scheme = APIData.scheme.getUrlComponents
+        components.host = APIData.host.getUrlComponents
+        components.path = path.getUrlComponents
+        return components.url
+    }
+
     func fetchData<T: Decodable>(url: URL, completion: @escaping (Result<T, Error>) -> Void) {
         guard let headers = HeaderData.header else { return }
         AF.request(url, headers: headers)

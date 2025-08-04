@@ -18,7 +18,7 @@ class SynopsisCell: UITableViewCell {
         return label
     }()
 
-    private let moreButton: UIButton = {
+    let moreButton: UIButton = {
         let button = UIButton()
         button.setTitle("More", for: .normal)
         button.setTitleColor(.primaryGreen, for: .normal)

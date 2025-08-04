@@ -12,7 +12,7 @@ class CastListCell: UITableViewCell {
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
-        imageView.backgroundColor = .red
+        imageView.backgroundColor = .primaryDrakGray
         imageView.layer.cornerRadius = 22
         imageView.clipsToBounds = true
         return imageView
@@ -20,7 +20,6 @@ class CastListCell: UITableViewCell {
 
     private let label: UILabel = {
         let label = UILabel()
-        label.text = "현빈"
         label.textColor = .primaryWhite
         label.font = .headerTitleMB
         return label
@@ -28,7 +27,6 @@ class CastListCell: UITableViewCell {
 
     private let engLabel: UILabel = {
         let label = UILabel()
-        label.text = "Ahn Jung-geun"
         label.textColor = .primaryGray
         label.font = .engTitle
         return label
@@ -90,4 +88,10 @@ class CastListCell: UITableViewCell {
         contentView.backgroundColor = .clear
     }
 
+    func configureCell(data: CastList) {
+        let url = URL(string: data.url)
+        profileImageView.kf.setImage(with: url)
+        label.text = data.name
+        engLabel.text = data.character
+    }
 }

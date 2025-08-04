@@ -11,7 +11,6 @@ class SynopsisLabelCell: UITableViewCell {
 
     private let label: UILabel = {
         let label = UILabel()
-        label.text = "테스트입니다 테스트입니다 테스트입니다 테스트입니다 테스트입니다 테스트입니다 테스트입니다 테스트입니다 테스트입니다 테스트입니다 테스트입니다 테스트입니다 테스트입니다 테스트입니다 테스트입니다 테스트입니다"
         label.textColor = .primaryWhite
         label.font = .subTitleM
         label.numberOfLines = 3
@@ -43,6 +42,15 @@ class SynopsisLabelCell: UITableViewCell {
     private func configureView() {
         backgroundColor = .clear
         contentView.backgroundColor = .clear
+    }
+
+    func configureCell(data: MovieDetailModel, isExpended: Bool) {
+        label.text = data.overview
+        if isExpended {
+            label.numberOfLines = 0
+        } else {
+            label.numberOfLines = 3
+        }
     }
 }
 

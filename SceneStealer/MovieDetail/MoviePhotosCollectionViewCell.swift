@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class MoviePhotosCollectionViewCell: UICollectionViewCell {
 
@@ -17,12 +18,6 @@ class MoviePhotosCollectionViewCell: UICollectionViewCell {
         imageView.layer.cornerRadius = 10
         imageView.clipsToBounds = true
         return imageView
-    }()
-
-    private let label: UILabel = {
-        let label = UILabel()
-        label.text = "테스트"
-        return label
     }()
 
     override init(frame: CGRect) {
@@ -37,21 +32,22 @@ class MoviePhotosCollectionViewCell: UICollectionViewCell {
     }
 
     private func configureHierarchy() {
-        [imageView, label].forEach { contentView.addSubview($0) }
+        [imageView].forEach { contentView.addSubview($0) }
     }
 
     private func configureLayout() {
         imageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-
-        label.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-        }
     }
 
     private func configureView() {
         backgroundColor = .clear
         contentView.backgroundColor = .clear
+    }
+
+    func configureCell(data: BackDropData) {
+        guard let url = URL(string: data.url) else { return }
+        imageView.kf.setImage(with: url)
     }
 }

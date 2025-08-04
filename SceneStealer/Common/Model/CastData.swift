@@ -13,12 +13,18 @@ struct CastData: Decodable {
 
 struct CastList: Decodable {
     let name: String
-    let profilePath: String
+    let profilePath: String?
     let character: String
 
     enum CodingKeys: String,CodingKey {
         case name
         case profilePath = "profile_path"
         case character
+    }
+}
+
+extension CastList {
+    var url: String {
+        return APIData.simpleImage(profilePath ?? "").getUrlComponents
     }
 }
