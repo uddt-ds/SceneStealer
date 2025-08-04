@@ -13,7 +13,6 @@ class NicknameDetailVC: UIViewController, NicknameVCProtocol {
 
     let checkLabel: UILabel = {
         let label = UILabel()
-        label.text = "테스트"
         label.font = .subTitleM
         label.textColor = .primaryGreen
         label.textAlignment = .left
@@ -29,6 +28,8 @@ class NicknameDetailVC: UIViewController, NicknameVCProtocol {
         configureHierarchy()
         configureLayout()
         configureView()
+        setupNavigation()
+
     }
 
     func configureHierarchy() {
@@ -47,5 +48,12 @@ class NicknameDetailVC: UIViewController, NicknameVCProtocol {
 
     func configureView() {
         view.backgroundColor = .primaryBlack
+    }
+
+    private func setupNavigation() {
+        navigationItem.title = "닉네임 설정"
+        navigationItem.backBarButtonItem = .init(title: "", style: .done, target: nil, action: nil)
+        let attributeContainer = AttributeContainer([.foregroundColor: UIColor.primaryWhite])
+        navigationController?.navigationBar.titleTextAttributes = .init(attributeContainer)
     }
 }

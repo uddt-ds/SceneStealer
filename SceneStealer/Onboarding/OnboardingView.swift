@@ -54,9 +54,9 @@ class OnboardingView: UIView, InitialViewProtocol {
     
     func configureLayout() {
         imageView.snp.makeConstraints { make in
-            make.size.equalTo(150)
+            make.top.equalToSuperview().offset(280)
             make.centerX.equalToSuperview()
-            make.top.equalTo(safeAreaLayoutGuide).offset(230)
+            make.size.equalTo(150)
         }
 
         logoLabel.snp.makeConstraints { make in

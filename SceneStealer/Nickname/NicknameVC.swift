@@ -22,6 +22,9 @@ class NicknameVC: UIViewController, NicknameVCProtocol {
         configureHierarchy()
         configureLayout()
         configureView()
+        setupNavigation()
+
+        baseNicknameView.editButton.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
     }
 
     func configureHierarchy() {
@@ -40,5 +43,17 @@ class NicknameVC: UIViewController, NicknameVCProtocol {
 
     func configureView() {
         view.backgroundColor = .primaryBlack
+    }
+
+    private func setupNavigation() {
+        navigationItem.title = "닉네임 설정"
+        navigationItem.backBarButtonItem = .init(title: "", style: .done, target: nil, action: nil)
+        let attributeContainer = AttributeContainer([.foregroundColor: UIColor.primaryWhite])
+        navigationController?.navigationBar.titleTextAttributes = .init(attributeContainer)
+    }
+
+    @objc private func editButtonTapped() {
+        let nicknameDetailVC = NicknameDetailVC()
+        navigationController?.pushViewController(nicknameDetailVC, animated: true)
     }
 }
