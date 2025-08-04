@@ -11,8 +11,8 @@ class SearchResultTableViewCell: UITableViewCell {
 
     private let movieImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .red
-        imageView.contentMode = .scaleAspectFit
+        imageView.backgroundColor = .primaryDrakGray
+        imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 8
         return imageView
     }()
@@ -154,4 +154,21 @@ class SearchResultTableViewCell: UITableViewCell {
         }
     }
 
+    func configureCell(data: SearchData) {
+        guard let url = URL(string: data.url) else { return }
+        movieImageView.kf.setImage(with: url)
+        titleLabel.text = data.title
+        dateLabel.text = data.releaseDate
+
+        if data.genreString.count < 2 {
+            genreButton1.setTitle(data.genreString[0], for: .normal)
+            genreButton2.isHidden = true
+        } else {
+            genreButton1.setTitle(data.genreString[0], for: .normal)
+            genreButton2.isHidden = false
+            genreButton2.setTitle(data.genreString[1], for: .normal)
+        }
+
+
+    }
 }

@@ -28,3 +28,17 @@ struct SearchData: Decodable {
         case genreIds = "genre_ids"
     }
 }
+
+extension SearchData {
+    var url: String {
+        return APIData.simpleImage(posterPath).getUrlComponents
+    }
+
+    var genre: [Int] {
+        return [Int](genreIds.prefix(2))
+    }
+
+    var genreString: [String] {
+        return genre.map { GenreData().genreDictionary[$0] ?? "" }
+    }
+}
