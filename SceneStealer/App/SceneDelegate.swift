@@ -14,9 +14,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
 
-        //TODO: UserDefault 데이터 연결 필요
-        let isOnboarding = false
-
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
 
@@ -26,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         //MARK: 조건에 따라 화면 분기
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            if isOnboarding {
+            if splashVC.isOnboarding {
                 let tabBarController = TabBarController()
                 self.window?.rootViewController = tabBarController
             } else {

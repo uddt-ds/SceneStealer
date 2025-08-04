@@ -16,6 +16,7 @@ struct UserDefaultManager {
 
     func loadData<T: Decodable>(key: UserDefaultManager.UserDefaultKey) throws -> T {
         guard let data = userDefaults.data(forKey: key.rawValue) else {
+            print("데이터 불러오기 실패")
             throw UserDefaultsError.failDataFetch
         }
         do {
@@ -31,11 +32,24 @@ struct UserDefaultManager {
             userDefaults.set(encodedData, forKey: key.rawValue)
         }
     }
+
+    func updateData<T: Codable>(key: UserDefaultManager.UserDefaultKey, value: T) {
+        var currentData: [T] = (try? loadData(key: key)) ?? []
+        currentData.insert(value, at: 0)
+        saveData(key: key, value: currentData)
+    }
+
+    func removeData<T: Codable>(key: UserDefaultManager.UserDefaultKey, value: T) {
+        var currentData: [T] = (try? loadData(key: .userInfo)) ?? []
+        currentData.removeAll()
+        saveData(key: key, value: currentData)
+    }
 }
 
 
 extension UserDefaultManager {
     enum UserDefaultKey: String {
+        case userInfo
         case nickname
         case isOnboarding
         case registerDate

@@ -9,9 +9,11 @@ import UIKit
 
 class MainVC: UIViewController {
 
-    var nickname: String = ""
+    var userInfo: UserModel = .init(nickname: "", isOnboarding: true, registerDate: "")
 
     var todayMovieData: [MovieResult] = []
+
+    var currentSearchData: [String] = []
 
     let mainView = MainView()
 
@@ -29,10 +31,19 @@ class MainVC: UIViewController {
         setupNavigation()
         fetchData()
 
-        guard let userName = try? UserDefaultManager.shared.loadData(key: .nickname) ?? "" else { return }
-        nickname = userName
+        guard let userData = try? UserDefaultManager.shared.loadData(key: .userInfo) ?? userInfo else { return }
+        userInfo = userData
 
-        mainView.profileBoxView.nicknameLabel.text = nickname
+        mainView.profileBoxView.nicknameLabel.text = userInfo.nickname
+        mainView.profileBoxView.dateLabel.text = userInfo.registerDate
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        guard let data: [String] = try? UserDefaultManager.shared.loadData(key: .currentSearch) else { return }
+        currentSearchData = data
+        mainView.searchCollectionView.reloadData()
     }
 
     private func configureView() {
@@ -75,12 +86,16 @@ class MainVC: UIViewController {
 }
 
 extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return todayMovieData.count
+        switch collectionView {
+        case mainView.searchCollectionView:
+            return currentSearchData.count
+        case mainView.todayMovieCollectionView:
+            return todayMovieData.count
+        default:
+            return 0
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -89,6 +104,7 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: SearchListCollectionViewCell.self), for: indexPath) as? SearchListCollectionViewCell else {
                 return .init()
             }
+            cell.configureSearchButton(text: currentSearchData[indexPath.row])
             return cell
 
         case mainView.todayMovieCollectionView:

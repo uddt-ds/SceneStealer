@@ -12,7 +12,7 @@ enum FontName: String {
     case header, text, sub = "Apple SD Gothic Neo"
     case headerEngB = "Noto Sans Kannada"
     case headerB = "Apple SD Gothic Neo Bold"
-    case eng = "Courier New"
+    case eng = "Courier New Bold"
 }
 
 extension UIFont {

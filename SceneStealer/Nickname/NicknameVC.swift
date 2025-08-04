@@ -59,6 +59,7 @@ class NicknameVC: UIViewController, NicknameVCProtocol {
     @objc private func editButtonTapped() {
         let nicknameDetailVC = NicknameDetailVC()
         nicknameDetailVC.delegate = self
+
         navigationController?.pushViewController(nicknameDetailVC, animated: true)
     }
 
@@ -77,6 +78,10 @@ class NicknameVC: UIViewController, NicknameVCProtocol {
             } else if userInput.contains(where: { charArr.contains($0)}) {
                 view.makeToast(NicknameLogMessage.noNumber.rawValue, duration: 2.0, position: .bottom)
             } else {
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "YY.MM.dd"
+                let date = dateFormatter.string(from: Date())
+                UserDefaultManager.shared.saveData(key: .userInfo, value: UserModel(nickname: userInput, isOnboarding: true, registerDate: date + "가입"))
                 let tabBarController = TabBarController()
                 view.window?.rootViewController = tabBarController
             }
