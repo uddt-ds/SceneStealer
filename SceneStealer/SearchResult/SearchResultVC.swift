@@ -96,6 +96,7 @@ extension SearchResultVC: UITableViewDataSource, UITableViewDelegate {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: SearchResultTableViewCell.self), for: indexPath) as? SearchResultTableViewCell else { return .init() }
         cell.configureCell(data: searchData[indexPath.row])
         cell.selectionStyle = .none
+        cell.heartButton.addTarget(self, action: #selector(heartButtonTapped), for: .touchUpInside)
         return cell
     }
 
@@ -111,6 +112,10 @@ extension SearchResultVC: UITableViewDataSource, UITableViewDelegate {
         vc.movieDetailData = searchData[indexPath.row].movieDetailData
         navigationItem.title = ""
         navigationController?.pushViewController(vc, animated: true)
+    }
+
+    @objc private func heartButtonTapped(_ sender: UIButton) {
+        sender.isSelected.toggle()
     }
 }
 

@@ -74,7 +74,7 @@ class SearchResultTableViewCell: UITableViewCell {
         return stackView
     }()
 
-    private let heartButton: UIButton = {
+    let heartButton: UIButton = {
         let button = UIButton()
         let image = ImageSystem.getImage(name: ImageSystem.heart.rawValue)
         let fillImage = ImageSystem.getImage(name: ImageSystem.fillHeart.rawValue)
