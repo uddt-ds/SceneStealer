@@ -38,6 +38,11 @@ class MovieDetailVC: UIViewController {
         movieDetailView.tableView.delegate = self
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        movieDetailView.tableView.reloadData()
+    }
+
     private func configureView() {
         view.backgroundColor = .black
     }

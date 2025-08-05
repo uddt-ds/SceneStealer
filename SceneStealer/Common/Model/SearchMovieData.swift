@@ -23,6 +23,7 @@ struct SearchData: Decodable {
     let id: Int
     let posterPath: String
     let title: String
+    let overview: String
     let voteAverage: Double
     let releaseDate: String
     let genreIds: [Int]
@@ -31,6 +32,7 @@ struct SearchData: Decodable {
         case id 
         case posterPath = "poster_path"
         case title
+        case overview
         case voteAverage = "vote_average"
         case releaseDate = "release_date"
         case genreIds = "genre_ids"
@@ -48,5 +50,9 @@ extension SearchData {
 
     var genreString: [String] {
         return genre.map { GenreData().genreDictionary[$0] ?? "" }
+    }
+
+    var movieDetailData: MovieDetailModel {
+        return .init(id: id, title: title, overview: overview, voteAverage: voteAverage, releaseDate: releaseDate, genre: genreString.joined(separator: ", "))
     }
 }

@@ -61,7 +61,6 @@ class SearchResultVC: UIViewController {
 
         guard let url = NetworkService.shared.makeUrl(path: .searchPath, queries: queries) else { return }
         NetworkService.shared.fetchData(url: url) { (response: Result<SearchMovieData, Error>) in
-            print(url)
             switch response {
             case .success(let responseData):
                 self.searchTotalData = responseData
@@ -85,6 +84,7 @@ extension SearchResultVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: SearchResultTableViewCell.self), for: indexPath) as? SearchResultTableViewCell else { return .init() }
         cell.configureCell(data: searchData[indexPath.row])
+        cell.selectionStyle = .none
         return cell
     }
 
@@ -93,6 +93,12 @@ extension SearchResultVC: UITableViewDataSource, UITableViewDelegate {
             page += 1
             fetchSearchResult(page: page)
         }
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = MovieDetailVC()
+        vc.movieDetailData = searchData[indexPath.row].movieDetailData
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
