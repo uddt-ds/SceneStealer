@@ -18,6 +18,8 @@ extension LikeModel {
         } else {
             movieIds.insert(movieId)
         }
+
+        UserDefaultManager.shared.saveData(key: .likeMovies, value: self)
     }
 
     func isLike(movieId: Int) -> Bool {

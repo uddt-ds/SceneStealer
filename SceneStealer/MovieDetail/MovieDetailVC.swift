@@ -11,6 +11,8 @@ class MovieDetailVC: UIViewController {
 
     var movieDetailData: MovieDetailModel = .init(id: 0, title: "", overview: "", voteAverage: 0.0, releaseDate: "", genre: "")
 
+    var likeModel: LikeModel = LikeModel()
+
     var backdrops: [BackDropData] = []
     var castList: [CastList] = []
 
@@ -30,6 +32,12 @@ class MovieDetailVC: UIViewController {
         configureView()
         fetchBackdropPhotos()
         fetchCast()
+
+        if let savedLikeModel: LikeModel = try? UserDefaultManager.shared.loadData(key: .likeMovies) {
+            likeModel = savedLikeModel
+            isLiked = likeModel.isLike(movieId: movieDetailData.id)
+        }
+
         setupNavigation()
         movieDetailView.tableView.register(SynopsisCell.self, forCellReuseIdentifier: String(describing: SynopsisCell.self))
         movieDetailView.tableView.register(SynopsisLabelCell.self, forCellReuseIdentifier: String(describing: SynopsisLabelCell.self))
@@ -93,7 +101,8 @@ class MovieDetailVC: UIViewController {
     }
 
     @objc private func heartButtonTapped(_ sender: UIButton) {
-        isLiked.toggle()
+        likeModel.updateLikeMovie(movieId: movieDetailData.id)
+        isLiked = likeModel.isLike(movieId: movieDetailData.id)
         setupNavigation()
     }
 }
@@ -105,7 +114,7 @@ extension MovieDetailVC: UITableViewDelegate, UITableViewDataSource {
         let castHeader = 1
         return synopsisArea + castHeader + castList.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let row = indexPath.row
         switch row {
@@ -160,7 +169,7 @@ extension MovieDetailVC: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return backdrops.count
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: MoviePhotosCollectionViewCell.self), for: indexPath) as? MoviePhotosCollectionViewCell else { return .init() }
         cell.configureCell(data: backdrops[indexPath.row])

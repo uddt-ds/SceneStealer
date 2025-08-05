@@ -107,10 +107,11 @@ class TodayMovieCollectionViewCell: UICollectionViewCell {
         }
     }
 
-    func configureCell(data: MovieResult) {
+    func configureCell(data: MovieResult, isLiked: Bool) {
         let url = URL(string: data.url)
         imageView.kf.setImage(with: url)
         titleLabel.text = data.title
         synopsisLabel.text = data.overview
+        heartButton.isSelected = isLiked
     }
 }

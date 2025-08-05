@@ -11,6 +11,8 @@ class MainVC: UIViewController {
 
     var userInfo: UserModel = .init(nickname: "", isOnboarding: true, registerDate: "")
 
+    var likeModel = LikeModel()
+
     var todayMovieData: [MovieResult] = []
 
     var currentSearchData: [String] = []
@@ -40,6 +42,10 @@ class MainVC: UIViewController {
         setupProfileButton()
 
         mainView.totalDeleteButton.addTarget(self, action: #selector(totalDeleteButtonTapped), for: .touchUpInside)
+
+        if let savedLikeModel: LikeModel = try? UserDefaultManager.shared.loadData(key: .likeMovies) {
+            likeModel = savedLikeModel
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -51,7 +57,13 @@ class MainVC: UIViewController {
         isUpdateHiddenLabel()
 
         checkButtonHidden(count: currentSearchData.count)
+
+        if let savedLikeModel: LikeModel = try? UserDefaultManager.shared.loadData(key: .likeMovies) {
+            likeModel = savedLikeModel
+        }
+
         mainView.searchCollectionView.reloadData()
+        mainView.todayMovieCollectionView.reloadData()
     }
 
     private func isUpdateHiddenLabel() {
@@ -144,23 +156,24 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
             return 0
         }
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch collectionView {
         case mainView.searchCollectionView:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: SearchListCollectionViewCell.self), for: indexPath) as? SearchListCollectionViewCell else {
                 return .init()
             }
-            cell.configureSearchListLabel(text: currentSearchData[indexPath.row])
+            cell.configureSearchListLabel(text: currentSearchData[indexPath.item])
             cell.deleteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
-            cell.deleteButton.tag = indexPath.row
+            cell.deleteButton.tag = indexPath.item
             return cell
 
         case mainView.todayMovieCollectionView:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TodayMovieCollectionViewCell.self), for: indexPath) as? TodayMovieCollectionViewCell else {
                 return .init()
             }
-            cell.configureCell(data: todayMovieData[indexPath.row])
+            cell.configureCell(data: todayMovieData[indexPath.item], isLiked: likeModel.isLike(movieId: todayMovieData[indexPath.item].id))
+            cell.heartButton.tag = indexPath.item
             cell.heartButton.addTarget(self, action: #selector(heartButtonTapped), for: .touchUpInside)
             return cell
         default:
@@ -172,11 +185,11 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
         switch collectionView {
         case mainView.searchCollectionView:
             let searchResultVC = SearchResultVC()
-            searchResultVC.keyword = currentSearchData[indexPath.row]
+            searchResultVC.keyword = currentSearchData[indexPath.item]
             navigationController?.pushViewController(searchResultVC, animated: true)
         case mainView.todayMovieCollectionView:
             let movieDetailVC = MovieDetailVC()
-            movieDetailVC.movieDetailData = todayMovieData[indexPath.row].movieDetailModel
+            movieDetailVC.movieDetailData = todayMovieData[indexPath.item].movieDetailModel
             navigationController?.pushViewController(movieDetailVC, animated: true)
         default:
             return
@@ -192,6 +205,8 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
     }
 
     @objc private func heartButtonTapped(_ sender: UIButton) {
-        sender.isSelected.toggle()
+        let movieId = todayMovieData[sender.tag].id
+        likeModel.updateLikeMovie(movieId: movieId)
+        sender.isSelected = likeModel.isLike(movieId: movieId)
     }
 }
