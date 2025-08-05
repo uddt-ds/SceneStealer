@@ -36,7 +36,6 @@ class SearchResultVC: UIViewController {
 
     private func setupNavigation() {
         navigationItem.title = "영화 검색"
-
         let attributeContainer = AttributeContainer([.foregroundColor: UIColor.primaryWhite])
         navigationController?.navigationBar.tintColor = .primaryGreen
         navigationController?.navigationBar.titleTextAttributes = .init(attributeContainer)
@@ -63,7 +62,6 @@ class SearchResultVC: UIViewController {
             }
         }
     }
-
 }
 
 extension SearchResultVC: UITableViewDataSource, UITableViewDelegate {
@@ -82,7 +80,8 @@ extension SearchResultVC: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let text = searchBar.text, text.count > 0 {
             keyword = text
-            UserDefaultManager.shared.saveData(key: .currentSearch, value: text)
+
+            UserDefaultManager.shared.updateData(key: .currentSearch, value: text)
         }
 
         fetchSearchResult(page: 1)

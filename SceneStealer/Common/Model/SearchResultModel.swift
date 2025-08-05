@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+struct SearchResultModel: Codable {
+    let currentSearch: [String]
+}
