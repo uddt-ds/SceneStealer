@@ -29,7 +29,7 @@ class ProfileVC: UIViewController {
     }
 
     private func configureView() {
-        view.backgroundColor = .black
+        view.backgroundColor = .primaryBlack
     }
 
 

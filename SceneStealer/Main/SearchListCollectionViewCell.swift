@@ -30,12 +30,12 @@ class SearchListCollectionViewCell: UICollectionViewCell {
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [label, deleteButton])
         stackView.axis = .horizontal
-        stackView.spacing = 6
+        stackView.spacing = 3
         stackView.alignment = .center
         stackView.distribution = .fillProportionally
         stackView.isLayoutMarginsRelativeArrangement = true
-        stackView.layoutMargins = .init(top: 0, left: 2, bottom: 0, right: 2)
-        stackView.backgroundColor = .white
+        stackView.layoutMargins = .init(top: 0, left: 6, bottom: 0, right: 6)
+        stackView.backgroundColor = .primaryWhite
         stackView.layer.cornerRadius = 12
         stackView.clipsToBounds = true
         return stackView
@@ -60,6 +60,10 @@ class SearchListCollectionViewCell: UICollectionViewCell {
     private func configureLayout() {
         stackView.snp.makeConstraints { make in
             make.directionalEdges.equalToSuperview()
+        }
+
+        deleteButton.snp.makeConstraints { make in
+            make.size.equalTo(12)
         }
     }
 

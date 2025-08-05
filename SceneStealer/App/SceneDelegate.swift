@@ -35,9 +35,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let standard = UINavigationBarAppearance()
         standard.backgroundColor = .primaryBlack
-        standard.titleTextAttributes = [.foregroundColor: UIColor.white]
+        standard.titleTextAttributes = [.foregroundColor: UIColor.primaryWhite]
         UINavigationBar.appearance().standardAppearance = standard
 
+
+        let standard2 = UITabBarAppearance()
+        standard2.backgroundColor = .primaryBlack
+        UITabBar.appearance().standardAppearance = standard2
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

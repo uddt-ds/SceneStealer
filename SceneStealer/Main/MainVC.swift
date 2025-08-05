@@ -71,7 +71,7 @@ class MainVC: UIViewController {
     }
 
     private func configureView() {
-        view.backgroundColor = .black
+        view.backgroundColor = .primaryBlack
     }
 
     private func setupNavigation() {

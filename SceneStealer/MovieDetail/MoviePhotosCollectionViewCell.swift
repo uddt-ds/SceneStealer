@@ -13,7 +13,7 @@ class MoviePhotosCollectionViewCell: UICollectionViewCell {
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = .splash
-        imageView.backgroundColor = .white
+        imageView.backgroundColor = .primaryWhite
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 10
         imageView.clipsToBounds = true
