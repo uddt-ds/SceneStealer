@@ -53,17 +53,16 @@ class ProfileVC: UIViewController {
         profileView.profileBoxView.setDetailButton.addTarget(self, action: #selector(profileButtonTapped), for: .touchUpInside)
     }
 
-    //TODO: 이쪽 로직 수정 필요
     @objc private func profileButtonTapped() {
         let vc = NicknameVC()
+        vc.mode = .setting
         let navVC = UINavigationController(rootViewController: vc)
         navVC.modalPresentationStyle = .pageSheet
-        let image = ImageSystem.getImage(name: ImageSystem.xmark.rawValue)
-//        navVC.navigationItem.leftBarButtonItem = .init(image: image, style: .done, target: self, action: #selector(closeButtonTapped))
         navVC.navigationBar.tintColor = .primaryGreen
-        navVC.navigationItem.title = "닉네임 편집"
+        vc.baseNicknameView.textField.text = userInfo.nickname
         present(navVC, animated: true)
     }
+
 }
 
 extension ProfileVC: UITableViewDelegate, UITableViewDataSource {

@@ -7,9 +7,16 @@
 
 import UIKit
 
+enum NicknameDetailVCMode {
+    case onBoarding
+    case setting
+}
+
 class NicknameDetailVC: UIViewController, NicknameVCProtocol {
 
     var delegate: NicknameDataDelegate?
+
+    var mode: NicknameVCMode = .onBoarding
 
     let baseNicknameView = BaseNicknameView(isHiddenEditBtn: true)
 
@@ -30,10 +37,20 @@ class NicknameDetailVC: UIViewController, NicknameVCProtocol {
         configureHierarchy()
         configureLayout()
         configureView()
-        setupNavigation()
 
         baseNicknameView.textField.delegate = self
         baseNicknameView.textField.becomeFirstResponder()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        switch mode {
+        case .onBoarding:
+            setupNavigation(title: "닉네임 설정")
+        case .setting:
+            setupNavigation(title: "닉네임 편집")
+        }
     }
 
     func configureHierarchy() {
@@ -54,8 +71,8 @@ class NicknameDetailVC: UIViewController, NicknameVCProtocol {
         view.backgroundColor = .primaryBlack
     }
 
-    private func setupNavigation() {
-        navigationItem.title = "닉네임 설정"
+    private func setupNavigation(title: String) {
+        navigationItem.title = title
         let image = ImageSystem.getImage(name: ImageSystem.chevronL.rawValue)
         navigationItem.leftBarButtonItem = .init(image: image, style: .done, target: self, action: #selector(buttonTapped))
         let attributeContainer = AttributeContainer([.foregroundColor: UIColor.primaryWhite])
@@ -95,5 +112,9 @@ extension NicknameDetailVC: UITextFieldDelegate {
         if let text = textField.text, text.count > 0 {
             checkLabel.text = checkLabel(userInput: textField.text!)
         }
+    }
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
     }
 }
