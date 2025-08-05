@@ -63,14 +63,11 @@ class SearchResultVC: UIViewController {
         NetworkService.shared.fetchData(url: url) { (response: Result<SearchMovieData, Error>) in
             switch response {
             case .success(let responseData):
-                if responseData.results.isEmpty {
-                    if self.page == 1 {
-                        self.searchData.removeAll()
-                        self.searchResultView.tableView.reloadData()
-                        self.searchResultView.label.isHidden = false
-                    }
-                } else {
-                    print("마지막 페이지입니다")
+                if responseData.results.isEmpty && self.page == 1 {
+                    self.searchData.removeAll()
+                    self.searchResultView.tableView.reloadData()
+                    self.searchResultView.label.isHidden = false
+                    return
                 }
 
                 self.searchTotalData = responseData
