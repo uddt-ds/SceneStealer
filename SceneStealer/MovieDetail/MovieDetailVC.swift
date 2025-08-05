@@ -150,3 +150,12 @@ extension MovieDetailVC: UICollectionViewDataSource, UICollectionViewDelegate {
         return cell
     }
 }
+
+extension MovieDetailVC: UIScrollViewDelegate {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let pageWidth = scrollView.visibleSize.width
+        let currentPage = Int(scrollView.contentOffset.x / pageWidth)
+
+        headerView?.pageControl.currentPage = currentPage
+    }
+}
