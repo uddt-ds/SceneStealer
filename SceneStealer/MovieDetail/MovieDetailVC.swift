@@ -53,9 +53,7 @@ class MovieDetailVC: UIViewController {
             switch response {
             case .success(let response):
                 self.backdrops = response.fiveBackdrops
-                DispatchQueue.main.async {
-                    self.movieDetailView.tableView.reloadData()
-                }
+                self.movieDetailView.tableView.reloadData()
             case .failure(let error):
                 print(error)
             }
@@ -72,9 +70,7 @@ class MovieDetailVC: UIViewController {
             switch response {
             case .success(let response):
                 self.castList = response.cast
-                DispatchQueue.main.async {
-                    self.movieDetailView.tableView.reloadData()
-                }
+                self.movieDetailView.tableView.reloadData()
             case .failure(let error):
                 print(error)
             }
