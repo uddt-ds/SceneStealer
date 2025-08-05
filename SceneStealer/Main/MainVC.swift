@@ -38,6 +38,8 @@ class MainVC: UIViewController {
         mainView.profileBoxView.dateLabel.text = userInfo.registerDate
 
         setupProfileButton()
+
+        mainView.totalDeleteButton.addTarget(self, action: #selector(totalDeleteButtonTapped), for: .touchUpInside)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -46,8 +48,18 @@ class MainVC: UIViewController {
         guard let data: [String] = try? UserDefaultManager.shared.loadData(key: .currentSearch) else { return }
         currentSearchData = data
 
+        isUpdateHiddenLabel()
+
         checkButtonHidden(count: currentSearchData.count)
         mainView.searchCollectionView.reloadData()
+    }
+
+    private func isUpdateHiddenLabel() {
+        if currentSearchData.isEmpty {
+            mainView.noDataLabel.isHidden = false
+        } else {
+            mainView.noDataLabel.isHidden = true
+        }
     }
 
     private func checkButtonHidden(count: Int) {
@@ -102,6 +114,12 @@ class MainVC: UIViewController {
         let vc = SearchResultVC()
         navigationItem.backBarButtonItem = .init(title: "", style: .done, target: nil, action: nil)
         navigationController?.pushViewController(vc, animated: true)
+    }
+
+    @objc private func totalDeleteButtonTapped() {
+        currentSearchData.removeAll()
+        mainView.searchCollectionView.reloadData()
+        isUpdateHiddenLabel()
     }
 }
 
@@ -160,5 +178,6 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
         let data = currentSearchData.remove(at: index)
         UserDefaultManager.shared.saveData(key: .currentSearch, value: data)
         mainView.searchCollectionView.reloadData()
+        isUpdateHiddenLabel()
     }
 }

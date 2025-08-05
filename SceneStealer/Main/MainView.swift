@@ -37,6 +37,14 @@ class MainView: UIView {
         return label
     }()
 
+    let noDataLabel: UILabel = {
+        let label = UILabel()
+        label.text = "최근 검색어 내역이 없습니다"
+        label.font = .subTitleM
+        label.textColor = .primaryGray
+        return label
+    }()
+
     lazy var searchCollectionView = UICollectionView(frame: .zero,
                                           collectionViewLayout: makeSearchCollectionViewFlowLayout())
 
@@ -55,7 +63,7 @@ class MainView: UIView {
     }
 
     func configureHierarchy() {
-        [profileBoxView, currentSearchLabel, totalDeleteButton, searchCollectionView, todayMovieLabel, todayMovieCollectionView].forEach { addSubview($0)}
+        [profileBoxView, currentSearchLabel, totalDeleteButton, searchCollectionView, todayMovieLabel, noDataLabel, todayMovieCollectionView].forEach { addSubview($0)}
     }
 
     func configureLayout() {
@@ -91,6 +99,10 @@ class MainView: UIView {
             make.top.equalTo(todayMovieLabel.snp.bottom).offset(12)
             make.directionalHorizontalEdges.equalTo(safeAreaLayoutGuide)
             make.bottom.equalTo(safeAreaLayoutGuide)
+        }
+
+        noDataLabel.snp.makeConstraints { make in
+            make.center.equalTo(searchCollectionView)
         }
     }
 
