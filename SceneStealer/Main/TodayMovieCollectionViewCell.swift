@@ -15,7 +15,7 @@ class TodayMovieCollectionViewCell: UICollectionViewCell {
         imageView.image = .splash
         imageView.backgroundColor = .primaryWhite
         imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = 10
+        imageView.layer.cornerRadius = 12
         imageView.clipsToBounds = true
         return imageView
     }()
@@ -74,7 +74,8 @@ class TodayMovieCollectionViewCell: UICollectionViewCell {
 
     private func configureLayout() {
         imageView.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
+            make.top.equalToSuperview().offset(5)
+            make.directionalHorizontalEdges.equalToSuperview()
         }
 
         stackView.snp.makeConstraints { make in

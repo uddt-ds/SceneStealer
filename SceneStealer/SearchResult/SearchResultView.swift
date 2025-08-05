@@ -16,6 +16,7 @@ class SearchResultView: UIView, InitialViewProtocol {
         searchBar.searchTextField.attributedPlaceholder = placeHolder
         searchBar.placeholder = "영화 제목을 검색해주세요"
         searchBar.backgroundImage = UIImage()
+        searchBar.searchTextField.textColor = .primaryWhite
         searchBar.searchTextField.backgroundColor = .primaryGray
         searchBar.searchTextField.leftView?.tintColor = .primaryLightGray
         return searchBar

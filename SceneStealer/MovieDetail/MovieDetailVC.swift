@@ -66,7 +66,6 @@ class MovieDetailVC: UIViewController {
             .language
         ]
         guard let url = NetworkService.shared.makeUrl(path: .creditPath(movieDetailData.id), queries: queries) else { return }
-        print(url)
         NetworkService.shared.fetchData(url: url) { (response: Result<CastData, Error>) in
             switch response {
             case .success(let response):

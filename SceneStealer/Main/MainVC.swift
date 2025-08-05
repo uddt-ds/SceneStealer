@@ -120,7 +120,6 @@ class MainVC: UIViewController {
     }
 
     @objc private func buttonTapped() {
-        print(#function)
         let vc = SearchResultVC()
         navigationItem.backBarButtonItem = .init(title: "", style: .done, target: nil, action: nil)
         navigationController?.pushViewController(vc, animated: true)
