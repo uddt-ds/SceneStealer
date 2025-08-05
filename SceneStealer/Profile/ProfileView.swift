@@ -45,7 +45,7 @@ class ProfileView: UIView, InitialViewProtocol {
 
         tableView.snp.makeConstraints { make in
             make.top.equalTo(profileBoxView.snp.bottom).offset(16)
-            make.directionalHorizontalEdges.equalToSuperview().inset(16)
+            make.directionalHorizontalEdges.equalToSuperview()
             make.bottom.equalTo(safeAreaLayoutGuide)
         }
     }

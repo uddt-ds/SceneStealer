@@ -80,6 +80,8 @@ class MovieDetailVC: UIViewController {
         navigationItem.title = movieDetailData.title
         let attributeContainer = AttributeContainer([.foregroundColor: UIColor.primaryWhite])
         navigationController?.navigationBar.titleTextAttributes = .init(attributeContainer)
+        let image = ImageSystem.getImage(name: ImageSystem.heart.rawValue)
+        navigationItem.rightBarButtonItem = .init(image: image, style: .done, target: nil, action: nil)
         navigationController?.navigationBar.tintColor = .primaryGreen
     }
 }
@@ -133,7 +135,8 @@ extension MovieDetailVC: UITableViewDelegate, UITableViewDataSource {
 
     @objc private func moreButtonTapped() {
         isExpended.toggle()
-        movieDetailView.tableView.reloadRows(at: [IndexPath(row: 1, section: 0)], with: .automatic)
+        movieDetailView.tableView.reloadData()
+//        movieDetailView.tableView.reloadRows(at: [IndexPath(row: 1, section: 0)], with: .automatic)
     }
 }
 

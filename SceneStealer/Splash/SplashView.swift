@@ -9,7 +9,7 @@ import UIKit
 
 class SplashView: UIView, InitialViewProtocol {
 
-    var userName: String? = "게스트"
+    var userName: String? = "이다성"
 
     let imageView: UIImageView = {
         let imageView = UIImageView()

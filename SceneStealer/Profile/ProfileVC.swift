@@ -46,6 +46,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ProfileTableViewCell.self), for: indexPath) as? ProfileTableViewCell else { return .init() }
         cell.configureCell(data: ProfileMenuTitle.allCases[indexPath.row])
+        cell.selectionStyle = .none
         return cell
     }
 }
