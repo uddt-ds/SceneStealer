@@ -199,6 +199,7 @@ class MovieDetailHeaderView: UITableViewHeaderFooterView, InitialViewProtocol {
 
     func configureView() {
         backgroundConfiguration?.backgroundColor = .clear
+        tintColor = .primaryBlack
     }
 
     private func makeCollectionViewLayout() -> UICollectionViewFlowLayout {

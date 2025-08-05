@@ -48,7 +48,6 @@ class MovieDetailVC: UIViewController {
             switch response {
             case .success(let response):
                 self.backdrops = response.fiveBackdrops
-                //TODO: HeaderView reload 필요
                 DispatchQueue.main.async {
                     self.movieDetailView.tableView.reloadData()
                 }

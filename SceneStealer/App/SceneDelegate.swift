@@ -32,6 +32,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 self.window?.rootViewController = navOnboardingVC
             }
         }
+
+        let standard = UINavigationBarAppearance()
+        standard.backgroundColor = .primaryBlack
+        standard.titleTextAttributes = [.foregroundColor: UIColor.white]
+        UINavigationBar.appearance().standardAppearance = standard
+
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
