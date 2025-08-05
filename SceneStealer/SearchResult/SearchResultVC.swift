@@ -63,14 +63,28 @@ class SearchResultVC: UIViewController {
         NetworkService.shared.fetchData(url: url) { (response: Result<SearchMovieData, Error>) in
             switch response {
             case .success(let responseData):
+                if responseData.results.isEmpty {
+                    if self.page == 1 {
+                        self.searchData.removeAll()
+                        self.searchResultView.tableView.reloadData()
+                        self.searchResultView.label.isHidden = false
+                    }
+                } else {
+                    print("마지막 페이지입니다")
+                }
+
                 self.searchTotalData = responseData
-                self.searchData.append(contentsOf: self.searchTotalData.results)
+                self.searchData.append(contentsOf: responseData.results)
                 self.searchResultView.tableView.reloadData()
                 self.searchResultView.label.isHidden = true
+
             case .failure(let error):
-                self.searchResultView.label.isHidden = false
-                self.searchResultView.tableView.reloadData()
-                print(error)
+                if page == 1 {
+                    self.searchData.removeAll()
+                    self.searchResultView.label.isHidden = false
+                    self.searchResultView.tableView.reloadData()
+                    print(error)
+                }
             }
         }
     }
@@ -98,6 +112,7 @@ extension SearchResultVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = MovieDetailVC()
         vc.movieDetailData = searchData[indexPath.row].movieDetailData
+        navigationItem.title = ""
         navigationController?.pushViewController(vc, animated: true)
     }
 }

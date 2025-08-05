@@ -19,7 +19,6 @@ class SearchResultTableViewCell: UITableViewCell {
 
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "테스트"
         label.textColor = .primaryWhite
         label.font = .headerTitleSB
         label.numberOfLines = 2
@@ -28,7 +27,6 @@ class SearchResultTableViewCell: UITableViewCell {
 
     private let dateLabel: UILabel = {
         let label = UILabel()
-        label.text = "00.00.00"
         label.font = .subTitleS
         label.textColor = .primaryLightGray
         return label
@@ -45,7 +43,6 @@ class SearchResultTableViewCell: UITableViewCell {
 
     private let genreButton1: UIButton = {
         let button = UIButton()
-        button.setTitle("테스트", for: .normal)
         button.setTitleColor(.primaryWhite, for: .normal)
         button.titleLabel?.font = .subTitleM
         button.backgroundColor = .primaryDrakGray
@@ -58,7 +55,6 @@ class SearchResultTableViewCell: UITableViewCell {
 
     private let genreButton2: UIButton = {
         let button = UIButton()
-        button.setTitle("테스트", for: .normal)
         button.setTitleColor(.primaryWhite, for: .normal)
         button.titleLabel?.font = .subTitleM
         button.backgroundColor = .primaryDrakGray
@@ -74,7 +70,7 @@ class SearchResultTableViewCell: UITableViewCell {
         stackView.axis = .horizontal
         stackView.spacing = 4
         stackView.alignment = .center
-        stackView.distribution = .fillProportionally
+        stackView.distribution = .fill
         return stackView
     }()
 
@@ -166,11 +162,19 @@ class SearchResultTableViewCell: UITableViewCell {
             genreButton2.isHidden = true
         } else if data.genreString.count < 2 {
             genreButton1.setTitle(data.genreString[0], for: .normal)
+            genreButton1.isHidden = false
             genreButton2.isHidden = true
         } else {
             genreButton1.setTitle(data.genreString[0], for: .normal)
-            genreButton2.isHidden = false
+            genreButton1.isHidden = false
             genreButton2.setTitle(data.genreString[1], for: .normal)
+            genreButton2.isHidden = false
         }
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        genreButton1.setTitle("", for: .normal)
+        genreButton2.setTitle("", for: .normal)
     }
 }
