@@ -16,7 +16,6 @@ struct UserDefaultManager {
 
     func loadData<T: Decodable>(key: UserDefaultManager.UserDefaultKey) throws -> T {
         guard let data = userDefaults.data(forKey: key.rawValue) else {
-            print("데이터 불러오기 실패")
             throw UserDefaultsError.failDataFetch
         }
         do {

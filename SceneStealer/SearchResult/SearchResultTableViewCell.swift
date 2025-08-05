@@ -160,7 +160,10 @@ class SearchResultTableViewCell: UITableViewCell {
         titleLabel.text = data.title
         dateLabel.text = data.releaseDate
 
-        if data.genreString.count < 2 {
+
+        if data.genreString.isEmpty {
+            [genreButton1, genreButton2].forEach { $0.isHidden }
+        } else if data.genreString.count < 2 {
             genreButton1.setTitle(data.genreString[0], for: .normal)
             genreButton2.isHidden = true
         } else {

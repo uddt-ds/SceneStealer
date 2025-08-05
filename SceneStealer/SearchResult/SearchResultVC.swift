@@ -29,6 +29,14 @@ class SearchResultVC: UIViewController {
         setupNavigation()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if keyword != "" {
+            fetchSearchResult(page: 1)
+            searchResultView.searchBar.text = keyword
+        }
+    }
+
     func configureView() {
         searchResultView.tableView.backgroundColor = .primaryBlack
         view.backgroundColor = .primaryBlack

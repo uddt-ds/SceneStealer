@@ -36,6 +36,8 @@ class MainVC: UIViewController {
 
         mainView.profileBoxView.nicknameLabel.text = userInfo.nickname
         mainView.profileBoxView.dateLabel.text = userInfo.registerDate
+
+        setupProfileButton()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -43,7 +45,17 @@ class MainVC: UIViewController {
 
         guard let data: [String] = try? UserDefaultManager.shared.loadData(key: .currentSearch) else { return }
         currentSearchData = data
+
+        checkButtonHidden(count: currentSearchData.count)
         mainView.searchCollectionView.reloadData()
+    }
+
+    private func checkButtonHidden(count: Int) {
+        if count > 0 {
+            mainView.totalDeleteButton.isHidden = false
+        } else {
+            mainView.totalDeleteButton.isHidden = true
+        }
     }
 
     private func configureView() {
@@ -77,6 +89,14 @@ class MainVC: UIViewController {
         }
     }
 
+    private func setupProfileButton() {
+        mainView.profileBoxView.movieBoxButton.addTarget(self, action: #selector(profileButtonTapped), for: .touchUpInside)
+    }
+
+    @objc private func profileButtonTapped() {
+        print(#function)
+    }
+
     @objc private func buttonTapped() {
         print(#function)
         let vc = SearchResultVC()
@@ -104,7 +124,9 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: SearchListCollectionViewCell.self), for: indexPath) as? SearchListCollectionViewCell else {
                 return .init()
             }
-            cell.configureSearchButton(text: currentSearchData[indexPath.row])
+            cell.configureSearchListLabel(text: currentSearchData[indexPath.row])
+            cell.deleteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
+            cell.deleteButton.tag = indexPath.row
             return cell
 
         case mainView.todayMovieCollectionView:
@@ -121,7 +143,9 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch collectionView {
         case mainView.searchCollectionView:
-            print(#function)
+            let searchResultVC = SearchResultVC()
+            searchResultVC.keyword = currentSearchData[indexPath.row]
+            navigationController?.pushViewController(searchResultVC, animated: true)
         case mainView.todayMovieCollectionView:
             let movieDetailVC = MovieDetailVC()
             movieDetailVC.movieDetailData = todayMovieData[indexPath.row].movieDetailModel
@@ -129,5 +153,12 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
         default:
             return
         }
+    }
+
+    @objc private func deleteButtonTapped(_ sender: UIButton) {
+        let index = sender.tag
+        let data = currentSearchData.remove(at: index)
+        UserDefaultManager.shared.saveData(key: .currentSearch, value: data)
+        mainView.searchCollectionView.reloadData()
     }
 }

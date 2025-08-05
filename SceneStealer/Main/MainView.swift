@@ -20,6 +20,14 @@ class MainView: UIView {
         return label
     }()
 
+    let totalDeleteButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("전체 삭제", for: .normal)
+        button.setTitleColor(.primaryGreen, for: .normal)
+        button.titleLabel?.font = .headerTitleMB
+        return button
+    }()
+
     let todayMovieLabel: UILabel = {
         let label = UILabel()
         label.text = "오늘의 영화"
@@ -47,7 +55,7 @@ class MainView: UIView {
     }
 
     func configureHierarchy() {
-        [profileBoxView, currentSearchLabel, searchCollectionView, todayMovieLabel, todayMovieCollectionView].forEach { addSubview($0)}
+        [profileBoxView, currentSearchLabel, totalDeleteButton, searchCollectionView, todayMovieLabel, todayMovieCollectionView].forEach { addSubview($0)}
     }
 
     func configureLayout() {
@@ -59,6 +67,13 @@ class MainView: UIView {
         currentSearchLabel.snp.makeConstraints { make in
             make.top.equalTo(profileBoxView.snp.bottom).offset(20)
             make.leading.equalToSuperview().offset(16)
+        }
+
+        totalDeleteButton.snp.makeConstraints { make in
+            make.centerY.equalTo(currentSearchLabel.snp.centerY)
+            make.trailing.equalToSuperview().offset(-16)
+            make.height.equalTo(30)
+            make.width.equalTo(60)
         }
 
         searchCollectionView.snp.makeConstraints { make in
