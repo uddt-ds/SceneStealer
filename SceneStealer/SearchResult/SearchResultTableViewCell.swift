@@ -162,7 +162,8 @@ class SearchResultTableViewCell: UITableViewCell {
 
 
         if data.genreString.isEmpty {
-            [genreButton1, genreButton2].forEach { $0.isHidden }
+            genreButton1.isHidden = true
+            genreButton2.isHidden = true
         } else if data.genreString.count < 2 {
             genreButton1.setTitle(data.genreString[0], for: .normal)
             genreButton2.isHidden = true
@@ -171,7 +172,5 @@ class SearchResultTableViewCell: UITableViewCell {
             genreButton2.isHidden = false
             genreButton2.setTitle(data.genreString[1], for: .normal)
         }
-
-
     }
 }

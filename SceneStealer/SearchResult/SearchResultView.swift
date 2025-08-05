@@ -27,6 +27,16 @@ class SearchResultView: UIView, InitialViewProtocol {
         return tableView
     }()
 
+    let label: UILabel = {
+        let label = UILabel()
+        label.text = "원하는 검색결과를 찾지 못했습니다"
+        label.font = .subTitleM
+        label.textColor = .primaryGray
+        label.textAlignment = .center
+        label.isHidden = true
+        return label
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureHierarchy()
@@ -39,7 +49,7 @@ class SearchResultView: UIView, InitialViewProtocol {
     }
 
     func configureHierarchy() {
-        [searchBar, tableView].forEach { addSubview($0) }
+        [searchBar, tableView, label].forEach { addSubview($0) }
     }
 
     func configureLayout() {
@@ -52,6 +62,11 @@ class SearchResultView: UIView, InitialViewProtocol {
             make.top.equalTo(searchBar.snp.bottom)
             make.directionalHorizontalEdges.bottom.equalTo(safeAreaLayoutGuide)
         }
+
+        label.snp.makeConstraints { make in
+            make.center.equalTo(tableView.snp.center)
+        }
+
     }
 
     func configureView() {

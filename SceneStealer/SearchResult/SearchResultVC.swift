@@ -10,7 +10,9 @@ import UIKit
 class SearchResultVC: UIViewController {
 
     var keyword: String = ""
+    var page: Int = 1
     var searchData: [SearchData] = []
+    var searchTotalData: SearchMovieData = .init(results: [], totalPages: 1, totalPagesResult: 1)
 
     let searchResultView = SearchResultView()
 
@@ -32,7 +34,7 @@ class SearchResultVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if keyword != "" {
-            fetchSearchResult(page: 1)
+            fetchSearchResult(page: page)
             searchResultView.searchBar.text = keyword
         }
     }
@@ -59,13 +61,16 @@ class SearchResultVC: UIViewController {
 
         guard let url = NetworkService.shared.makeUrl(path: .searchPath, queries: queries) else { return }
         NetworkService.shared.fetchData(url: url) { (response: Result<SearchMovieData, Error>) in
+            print(url)
             switch response {
-            case .success(let response):
-                print(url)
-                self.searchData = response.results
-                //TODO: HeaderView reload 필요
+            case .success(let responseData):
+                self.searchTotalData = responseData
+                self.searchData.append(contentsOf: self.searchTotalData.results)
                 self.searchResultView.tableView.reloadData()
+                self.searchResultView.label.isHidden = true
             case .failure(let error):
+                self.searchResultView.label.isHidden = false
+                self.searchResultView.tableView.reloadData()
                 print(error)
             }
         }
@@ -82,6 +87,13 @@ extension SearchResultVC: UITableViewDataSource, UITableViewDelegate {
         cell.configureCell(data: searchData[indexPath.row])
         return cell
     }
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == (searchData.count - 3) && searchTotalData.totalPages > page {
+            page += 1
+            fetchSearchResult(page: page)
+        }
+    }
 }
 
 extension SearchResultVC: UISearchBarDelegate {
@@ -92,7 +104,7 @@ extension SearchResultVC: UISearchBarDelegate {
             UserDefaultManager.shared.updateData(key: .currentSearch, value: text)
         }
 
-        fetchSearchResult(page: 1)
+        fetchSearchResult(page: page)
         view.endEditing(true)
     }
 }

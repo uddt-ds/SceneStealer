@@ -9,6 +9,14 @@ import Foundation
 
 struct SearchMovieData: Decodable {
     let results: [SearchData]
+    let totalPages: Int
+    let totalPagesResult: Int
+
+    enum CodingKeys: String, CodingKey {
+        case results
+        case totalPages = "total_pages"
+        case totalPagesResult = "total_results"
+    }
 }
 
 struct SearchData: Decodable {
