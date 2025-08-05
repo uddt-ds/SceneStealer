@@ -15,6 +15,7 @@ class MovieDetailVC: UIViewController {
     var castList: [CastList] = []
 
     var isExpended: Bool = false
+    var isLiked: Bool = false
 
     var headerView: MovieDetailHeaderView?
 
@@ -82,8 +83,19 @@ class MovieDetailVC: UIViewController {
         let attributeContainer = AttributeContainer([.foregroundColor: UIColor.primaryWhite])
         navigationController?.navigationBar.titleTextAttributes = .init(attributeContainer)
         let image = ImageSystem.getImage(name: ImageSystem.heart.rawValue)
-        navigationItem.rightBarButtonItem = .init(image: image, style: .done, target: nil, action: nil)
+        let fillImage = ImageSystem.getImage(name: ImageSystem.fillHeart.rawValue)
+
+        if !isLiked {
+            navigationItem.rightBarButtonItem = .init(image: image, style: .done, target: self, action: #selector(heartButtonTapped))
+        } else {
+            navigationItem.rightBarButtonItem = .init(image: fillImage, style: .done, target: self, action: #selector(heartButtonTapped))
+        }
         navigationController?.navigationBar.tintColor = .primaryGreen
+    }
+
+    @objc private func heartButtonTapped(_ sender: UIButton) {
+        isLiked.toggle()
+        setupNavigation()
     }
 }
 
