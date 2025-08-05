@@ -102,11 +102,23 @@ class MainVC: UIViewController {
     }
 
     private func setupProfileButton() {
-        mainView.profileBoxView.movieBoxButton.addTarget(self, action: #selector(profileButtonTapped), for: .touchUpInside)
+        mainView.profileBoxView.setDetailButton.addTarget(self, action: #selector(profileButtonTapped), for: .touchUpInside)
     }
 
+    //TODO: 이쪽 로직 수정 필요
     @objc private func profileButtonTapped() {
-        print(#function)
+        let vc = NicknameVC()
+        let navVC = UINavigationController(rootViewController: vc)
+        navVC.modalPresentationStyle = .pageSheet
+        let image = ImageSystem.getImage(name: ImageSystem.xmark.rawValue)
+        navVC.navigationItem.leftBarButtonItem = .init(image: image, style: .done, target: self, action: #selector(closeButtonTapped))
+        navVC.navigationBar.tintColor = .primaryGreen
+        navVC.navigationItem.title = "닉네임 편집"
+        present(navVC, animated: true)
+    }
+
+    @objc private func closeButtonTapped() {
+        dismiss(animated: true)
     }
 
     @objc private func buttonTapped() {
@@ -152,6 +164,7 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
                 return .init()
             }
             cell.configureCell(data: todayMovieData[indexPath.row])
+            cell.heartButton.addTarget(self, action: #selector(heartButtonTapped), for: .touchUpInside)
             return cell
         default:
             return .init()
@@ -179,5 +192,9 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
         UserDefaultManager.shared.saveData(key: .currentSearch, value: data)
         mainView.searchCollectionView.reloadData()
         isUpdateHiddenLabel()
+    }
+
+    @objc private func heartButtonTapped(_ sender: UIButton) {
+        sender.isSelected.toggle()
     }
 }
