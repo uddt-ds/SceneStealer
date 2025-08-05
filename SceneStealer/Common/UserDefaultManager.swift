@@ -43,6 +43,10 @@ struct UserDefaultManager {
         currentData.removeAll()
         saveData(key: key, value: currentData)
     }
+
+    func removeData(key: UserDefaultManager.UserDefaultKey) {
+        userDefaults.removeObject(forKey: key.rawValue)
+    }
 }
 
 

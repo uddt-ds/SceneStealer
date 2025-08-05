@@ -9,7 +9,7 @@ import UIKit
 
 class ProfileView: UIView, InitialViewProtocol {
 
-    private let profileBoxView = ProfileBoxView()
+    let profileBoxView = ProfileBoxView()
 
     let tableView: UITableView = {
         let tableView = UITableView()
