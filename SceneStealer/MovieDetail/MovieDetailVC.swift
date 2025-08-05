@@ -72,8 +72,9 @@ class MovieDetailVC: UIViewController {
             switch response {
             case .success(let response):
                 self.castList = response.cast
-                self.headerView?.imageCollectionView.reloadData()
-                self.headerView?.configureView(data: self.movieDetailData)
+                DispatchQueue.main.async {
+                    self.movieDetailView.tableView.reloadData()
+                }
             case .failure(let error):
                 print(error)
             }
@@ -129,6 +130,10 @@ extension MovieDetailVC: UITableViewDelegate, UITableViewDataSource {
         headerView.imageCollectionView.dataSource = self
         headerView.imageCollectionView.isPagingEnabled = true
         headerView.imageCollectionView.register(MoviePhotosCollectionViewCell.self, forCellWithReuseIdentifier: String(describing: MoviePhotosCollectionViewCell.self))
+
+        headerView.configureView(data: movieDetailData)
+        headerView.imageCollectionView.reloadData()
+        headerView.pageControl.numberOfPages = backdrops.count
         self.headerView = headerView
         return headerView
     }
