@@ -150,11 +150,12 @@ class SearchResultTableViewCell: UITableViewCell {
         }
     }
 
-    func configureCell(data: SearchData) {
+    func configureCell(data: SearchData, isLiked: Bool) {
         guard let url = URL(string: data.url) else { return }
         movieImageView.kf.setImage(with: url)
         titleLabel.text = data.title
         dateLabel.text = data.releaseDate
+        heartButton.isSelected = isLiked
 
 
         if data.genreString.isEmpty {

@@ -12,6 +12,9 @@ class SearchResultVC: UIViewController {
     var keyword: String = ""
     var page: Int = 1
     var searchData: [SearchData] = []
+
+    var likeModel = LikeModel()
+
     var searchTotalData: SearchMovieData = .init(results: [], totalPages: 1, totalPagesResult: 1)
 
     let searchResultView = SearchResultView()
@@ -29,6 +32,10 @@ class SearchResultVC: UIViewController {
         searchResultView.tableView.register(SearchResultTableViewCell.self, forCellReuseIdentifier: String(describing: SearchResultTableViewCell.self))
         configureView()
         setupNavigation()
+
+        if let savedLikeModel: LikeModel = try? UserDefaultManager.shared.loadData(key: .likeMovies) {
+            likeModel = savedLikeModel
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -94,8 +101,14 @@ extension SearchResultVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: SearchResultTableViewCell.self), for: indexPath) as? SearchResultTableViewCell else { return .init() }
-        cell.configureCell(data: searchData[indexPath.row])
+
+        if let likeMoviesData: LikeModel = try? UserDefaultManager.shared.loadData(key: .likeMovies) {
+            let isLiked = likeMoviesData.isLike(movieId: searchData[indexPath.row].id)
+            cell.configureCell(data: searchData[indexPath.row], isLiked: isLiked)
+        }
+
         cell.selectionStyle = .none
+        cell.heartButton.tag = indexPath.row
         cell.heartButton.addTarget(self, action: #selector(heartButtonTapped), for: .touchUpInside)
         return cell
     }
@@ -115,7 +128,8 @@ extension SearchResultVC: UITableViewDataSource, UITableViewDelegate {
     }
 
     @objc private func heartButtonTapped(_ sender: UIButton) {
-        sender.isSelected.toggle()
+        likeModel.updateLikeMovie(movieId: searchData[sender.tag].id)
+        searchResultView.tableView.reloadRows(at: [IndexPath(row: sender.tag, section: 0)], with: .automatic)
     }
 }
 
