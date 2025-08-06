@@ -126,7 +126,7 @@ extension MovieDetailVC: UITableViewDelegate, UITableViewDataSource {
             cell.selectionStyle = .none
             return cell
         case 1:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: SynopsisCell.identifier, for: indexPath) as? SynopsisLabelCell else { return .init() }
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: SynopsisLabelCell.identifier, for: indexPath) as? SynopsisLabelCell else { return .init() }
             cell.configureCell(data: movieDetailData, isExpended: isExpended)
             cell.selectionStyle = .none
             return cell
