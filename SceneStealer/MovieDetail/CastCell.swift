@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class CastCell: UITableViewCell {
+class CastCell: UITableViewCell, ReusableViewProtocol {
 
     private let label: UILabel = {
         let label = UILabel()

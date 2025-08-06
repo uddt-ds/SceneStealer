@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SynopsisLabelCell: UITableViewCell {
+class SynopsisLabelCell: UITableViewCell, ReusableViewProtocol {
 
     private let label: UILabel = {
         let label = UILabel()

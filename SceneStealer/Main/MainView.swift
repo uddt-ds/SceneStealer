@@ -107,8 +107,8 @@ class MainView: UIView {
     }
 
     private func configureView() {
-        searchCollectionView.register(SearchListCollectionViewCell.self, forCellWithReuseIdentifier: String(describing: SearchListCollectionViewCell.self))
-        todayMovieCollectionView.register(TodayMovieCollectionViewCell.self, forCellWithReuseIdentifier: String(describing: TodayMovieCollectionViewCell.self))
+        searchCollectionView.register(SearchListCollectionViewCell.self, forCellWithReuseIdentifier: SearchListCollectionViewCell.identifier)
+        todayMovieCollectionView.register(TodayMovieCollectionViewCell.self, forCellWithReuseIdentifier: TodayMovieCollectionViewCell.identifier)
         searchCollectionView.backgroundColor = .clear
         todayMovieCollectionView.backgroundColor = .clear
     }

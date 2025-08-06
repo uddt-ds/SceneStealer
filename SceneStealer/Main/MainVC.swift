@@ -162,7 +162,7 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch collectionView {
         case mainView.searchCollectionView:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: SearchListCollectionViewCell.self), for: indexPath) as? SearchListCollectionViewCell else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchListCollectionViewCell.identifier, for: indexPath) as? SearchListCollectionViewCell else {
                 return .init()
             }
             cell.configureSearchListLabel(text: currentSearchData[indexPath.item])
@@ -171,7 +171,7 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
             return cell
 
         case mainView.todayMovieCollectionView:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TodayMovieCollectionViewCell.self), for: indexPath) as? TodayMovieCollectionViewCell else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TodayMovieCollectionViewCell.identifier, for: indexPath) as? TodayMovieCollectionViewCell else {
                 return .init()
             }
             cell.configureCell(data: todayMovieData[indexPath.item], isLiked: likeModel.isLike(movieId: todayMovieData[indexPath.item].id))

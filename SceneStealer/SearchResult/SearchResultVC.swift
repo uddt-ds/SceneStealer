@@ -29,7 +29,7 @@ class SearchResultVC: UIViewController {
         searchResultView.searchBar.delegate = self
         searchResultView.tableView.dataSource = self
         searchResultView.tableView.delegate = self
-        searchResultView.tableView.register(SearchResultTableViewCell.self, forCellReuseIdentifier: String(describing: SearchResultTableViewCell.self))
+        searchResultView.tableView.register(SearchResultTableViewCell.self, forCellReuseIdentifier: SearchResultTableViewCell.identifier)
         configureView()
         setupNavigation()
 
@@ -100,7 +100,7 @@ extension SearchResultVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: SearchResultTableViewCell.self), for: indexPath) as? SearchResultTableViewCell else { return .init() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultTableViewCell.identifier, for: indexPath) as? SearchResultTableViewCell else { return .init() }
 
         if let likeMoviesData: LikeModel = try? UserDefaultManager.shared.loadData(key: .likeMovies) {
             let isLiked = likeMoviesData.isLike(movieId: searchData[indexPath.row].id)

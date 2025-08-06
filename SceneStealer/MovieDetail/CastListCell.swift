@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CastListCell: UITableViewCell {
+class CastListCell: UITableViewCell, ReusableViewProtocol {
 
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()

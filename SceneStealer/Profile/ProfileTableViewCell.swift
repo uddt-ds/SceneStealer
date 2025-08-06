@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProfileTableViewCell: UITableViewCell {
+class ProfileTableViewCell: UITableViewCell, ReusableViewProtocol {
 
     let label: UILabel = {
         let label = UILabel()

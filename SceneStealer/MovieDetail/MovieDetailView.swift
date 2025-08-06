@@ -19,7 +19,7 @@ class MovieDetailView: UIView, InitialViewProtocol {
         configureView()
 
         tableView.register(MovieDetailHeaderView.self,
-                           forHeaderFooterViewReuseIdentifier: String(describing: MovieDetailHeaderView.self))
+                           forHeaderFooterViewReuseIdentifier: MovieDetailHeaderView.identifier)
     }
 
     required init?(coder: NSCoder) {

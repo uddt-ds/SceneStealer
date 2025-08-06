@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class SearchListCollectionViewCell: UICollectionViewCell {
+class SearchListCollectionViewCell: UICollectionViewCell, ReusableViewProtocol {
 
     let label: UILabel = {
         let label = UILabel()

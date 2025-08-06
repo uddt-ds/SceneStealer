@@ -8,7 +8,7 @@
 import UIKit
 import Kingfisher
 
-class TodayMovieCollectionViewCell: UICollectionViewCell {
+class TodayMovieCollectionViewCell: UICollectionViewCell, ReusableViewProtocol {
 
     private let imageView: UIImageView = {
         let imageView = UIImageView()

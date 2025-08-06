@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MovieDetailHeaderView: UITableViewHeaderFooterView, InitialViewProtocol {
+class MovieDetailHeaderView: UITableViewHeaderFooterView, InitialViewProtocol, ReusableViewProtocol {
 
     lazy var imageCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: makeCollectionViewLayout())

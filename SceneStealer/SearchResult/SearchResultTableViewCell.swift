@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SearchResultTableViewCell: UITableViewCell {
+class SearchResultTableViewCell: UITableViewCell, ReusableViewProtocol {
 
     private let movieImageView: UIImageView = {
         let imageView = UIImageView()

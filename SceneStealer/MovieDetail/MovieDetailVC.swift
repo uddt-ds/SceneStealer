@@ -39,10 +39,12 @@ class MovieDetailVC: UIViewController {
         }
 
         setupNavigation()
-        movieDetailView.tableView.register(SynopsisCell.self, forCellReuseIdentifier: String(describing: SynopsisCell.self))
-        movieDetailView.tableView.register(SynopsisLabelCell.self, forCellReuseIdentifier: String(describing: SynopsisLabelCell.self))
-        movieDetailView.tableView.register(CastCell.self, forCellReuseIdentifier: String(describing: CastCell.self))
-        movieDetailView.tableView.register(CastListCell.self, forCellReuseIdentifier: String(describing: CastListCell.self))
+        setHeaderViewTarget()
+
+        movieDetailView.tableView.register(SynopsisCell.self, forCellReuseIdentifier: SynopsisCell.identifier)
+        movieDetailView.tableView.register(SynopsisLabelCell.self, forCellReuseIdentifier: SynopsisLabelCell.identifier)
+        movieDetailView.tableView.register(CastCell.self, forCellReuseIdentifier: CastCell.identifier)
+        movieDetailView.tableView.register(CastListCell.self, forCellReuseIdentifier: CastListCell.identifier)
         movieDetailView.tableView.dataSource = self
         movieDetailView.tableView.delegate = self
     }
@@ -119,21 +121,21 @@ extension MovieDetailVC: UITableViewDelegate, UITableViewDataSource {
         let row = indexPath.row
         switch row {
         case 0:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: SynopsisCell.self), for: indexPath) as? SynopsisCell else { return .init() }
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: SynopsisCell.identifier, for: indexPath) as? SynopsisCell else { return .init() }
             cell.moreButton.addTarget(self, action: #selector(moreButtonTapped), for: .touchUpInside)
             cell.selectionStyle = .none
             return cell
         case 1:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: SynopsisLabelCell.self), for: indexPath) as? SynopsisLabelCell else { return .init() }
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: SynopsisCell.identifier, for: indexPath) as? SynopsisLabelCell else { return .init() }
             cell.configureCell(data: movieDetailData, isExpended: isExpended)
             cell.selectionStyle = .none
             return cell
         case 2:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: CastCell.self), for: indexPath) as? CastCell else { return .init() }
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: CastCell.identifier, for: indexPath) as? CastCell else { return .init() }
             cell.selectionStyle = .none
             return cell
         default:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: CastListCell.self), for: indexPath) as? CastListCell else { return .init() }
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: CastListCell.identifier, for: indexPath) as? CastListCell else { return .init() }
             cell.configureCell(data: castList[indexPath.row - 3])
             cell.selectionStyle = .none
             return cell
@@ -141,11 +143,11 @@ extension MovieDetailVC: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: String(describing: MovieDetailHeaderView.self)) as? MovieDetailHeaderView else { return .init() }
+        guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: MovieDetailHeaderView.identifier) as? MovieDetailHeaderView else { return .init() }
         headerView.imageCollectionView.delegate = self
         headerView.imageCollectionView.dataSource = self
         headerView.imageCollectionView.isPagingEnabled = true
-        headerView.imageCollectionView.register(MoviePhotosCollectionViewCell.self, forCellWithReuseIdentifier: String(describing: MoviePhotosCollectionViewCell.self))
+        headerView.imageCollectionView.register(MoviePhotosCollectionViewCell.self, forCellWithReuseIdentifier: MoviePhotosCollectionViewCell.identifier)
 
         headerView.configureView(data: movieDetailData)
         headerView.imageCollectionView.reloadData()
@@ -171,7 +173,7 @@ extension MovieDetailVC: UICollectionViewDataSource, UICollectionViewDelegate {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: MoviePhotosCollectionViewCell.self), for: indexPath) as? MoviePhotosCollectionViewCell else { return .init() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier:MoviePhotosCollectionViewCell.identifier, for: indexPath) as? MoviePhotosCollectionViewCell else { return .init() }
         cell.configureCell(data: backdrops[indexPath.row])
         return cell
     }
