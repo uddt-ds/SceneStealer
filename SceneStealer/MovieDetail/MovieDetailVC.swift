@@ -39,7 +39,6 @@ class MovieDetailVC: UIViewController {
         }
 
         setupNavigation()
-        setHeaderViewTarget()
 
         movieDetailView.tableView.register(SynopsisCell.self, forCellReuseIdentifier: SynopsisCell.identifier)
         movieDetailView.tableView.register(SynopsisLabelCell.self, forCellReuseIdentifier: SynopsisLabelCell.identifier)
