@@ -51,8 +51,9 @@ class MainVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        guard let data: [String] = try? UserDefaultManager.shared.loadData(key: .currentSearch) else { return }
-        currentSearchData = data
+        if let data: [String] = try? UserDefaultManager.shared.loadData(key: .currentSearch) {
+            currentSearchData = data
+        }
 
         isUpdateHiddenLabel()
 
@@ -60,6 +61,7 @@ class MainVC: UIViewController {
 
         if let savedLikeModel: LikeModel = try? UserDefaultManager.shared.loadData(key: .likeMovies) {
             likeModel = savedLikeModel
+            mainView.profileBoxView.movieBoxButton.setTitle("\(likeModel.getLikeCount())개의 무비박스 보관중", for: .normal)
         }
 
         mainView.searchCollectionView.reloadData()
@@ -208,5 +210,6 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
         let movieId = todayMovieData[sender.tag].id
         likeModel.updateLikeMovie(movieId: movieId)
         sender.isSelected = likeModel.isLike(movieId: movieId)
+        mainView.profileBoxView.movieBoxButton.setTitle("\(likeModel.getLikeCount())개의 무비박스 보관중", for: .normal)
     }
 }

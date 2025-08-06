@@ -29,4 +29,8 @@ extension LikeModel {
             return false
         }
     }
+
+    func getLikeCount() -> Int {
+        return movieIds.count
+    }
 }

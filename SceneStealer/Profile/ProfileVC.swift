@@ -11,6 +11,8 @@ class ProfileVC: UIViewController {
 
     let profileView = ProfileView()
 
+    var likeModel = LikeModel()
+
     var userInfo: UserModel = .init(nickname: "", isOnboarding: true, registerDate: "")
 
     override func loadView() {
@@ -26,6 +28,15 @@ class ProfileVC: UIViewController {
         profileView.tableView.delegate = self
 
         loadProfileData()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let savedLikeModel: LikeModel = try? UserDefaultManager.shared.loadData(key: .likeMovies) {
+            likeModel = savedLikeModel
+        }
+
+        profileView.profileBoxView.movieBoxButton.setTitle("\(likeModel.getLikeCount())개의 무비박스 보관중", for: .normal)
     }
 
     private func configureView() {
